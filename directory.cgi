@@ -124,12 +124,14 @@ sub display_card {
         }
       }
 
-      if($strip_numbers == 1) {
-        $num =~ s/[^\d]//g;
-      } elsif($strip_numbers == 2) {
-        if(!($num =~ /^\+1 \d\d\d \d\d\d-\d\d\d\d$/)) {
+      if(!($num =~ /@/)) {
+        if($strip_numbers == 1) {
           $num =~ s/[^\d]//g;
-	}
+        } elsif($strip_numbers == 2) {
+          if(!($num =~ /^\+1 \d\d\d \d\d\d-\d\d\d\d$/)) {
+            $num =~ s/[^\d]//g;
+          }
+        }
       }
 
       $label =~ s/cell/mobile/;
@@ -172,7 +174,7 @@ sub display_form {
 display_header();
 print <<EOF;
 <CiscoIPPhoneInput>
-<Title>Search for Contacts</Title>
+<Title>OS X Address Book Search</Title>
 <Prompt>Enter a search string</Prompt>
 <URL>$me</URL>
 <InputItem>
