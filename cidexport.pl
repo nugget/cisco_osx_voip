@@ -23,7 +23,6 @@ sub extract_nums {
   my $org = '';
 
   $name =~ s/%([0-9a-fA-F][0-9a-fA-F])/pack("c",hex($1))/eg;
-  $name =~ s/'/\\'/g;
 
   my @entries;
   my $pref_entry = 0;
@@ -88,14 +87,21 @@ sub extract_nums {
         if($org ne '') {
           if($label =~ /main/i) {
             $outname = $org;
+	    $label = '';
           } elsif($label =~ /work fax/i) {
 	    $outname = $org;
 	    $label = "Fax";
 	  }
         }
 
-        $entries[@entries] .= "asterisk -rx 'database put cidname $num " .
-                              "\"$outname ($label)\"'\n";
+        $outname =~ s/'//g;
+        if($label ne '') {
+          $entries[@entries] .= "asterisk -rvqncx 'database put cidname $num " .
+                                "\"$outname ($label)\"'\n";
+        } else {
+          $entries[@entries] .= "asterisk -rvqncx 'database put cidname $num " .
+                                "\"$outname\"'\n";
+	}
       }
 
     } elsif($buf =~ /^(item\d+)\.X-ABLabel:(.+)$/) {
