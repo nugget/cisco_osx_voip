@@ -11,6 +11,9 @@ my $q=CGI->new();
 my $me = 'http://slacker.com/cisc0/directory.cgi';
 my $vcd = '/htdocs/cisc0/vCards';
 
+# if $strip_numbers is 1, all non-digit characters are stripped from the number
+my $strip_numbers = 1;
+
 # $::in{'dn'} = 'David MCNETT';
 if($::in{'st'}) {
   my @matches = search_names($::in{'st'});
@@ -101,10 +104,19 @@ sub display_card {
       $num =~ s/^sip://;
       $label = lc($label);
 
+      if($num =~ s/x (\d+)$//) {
+        $label .= " (x$1)";
+      }
+
+      if($strip_numbers == 1) {
+        $num =~ s/[^\d]//g;
+      }
+
       $entries[@entries] .= "<DirectoryEntry>\n" . 
                             "<Name>$label</Name>\n" .
 			    "<Telephone>" . $num . "</Telephone>\n" .
                             "</DirectoryEntry>\n";
+
     } elsif($buf =~ /^(item\d+)\.X-ABLabel:(.+)$/) {
       my ($itemnum,$itemlabel) = ($1,$2);
       for(my $i=0; $i<@entries; $i++) {
