@@ -132,6 +132,8 @@ sub display_card {
 	}
       }
 
+      $label =~ s/cell/mobile/;
+
       $entries[@entries] .= "<DirectoryEntry>\n" . 
                             "<Name>$label</Name>\n" .
 			    "<Telephone>" . $num . "</Telephone>\n" .
