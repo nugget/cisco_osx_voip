@@ -12,9 +12,10 @@ my $me = 'http://slacker.com/cisc0/directory.cgi';
 my $vcd = '/htdocs/cisc0/vCards';
 
 # if $strip_numbers is 1, all non-digit characters are stripped from the number
-my $strip_numbers = 1;
+# if $strip_numbers is 2, all unrecognized formats are stripped
+my $strip_numbers = 2;
 
-# $::in{'dn'} = 'David MCNETT';
+#$::in{'dn'} = 'Derek Buck';
 if($::in{'st'}) {
   my @matches = search_names($::in{'st'});
   if(@matches == 1) {
@@ -108,8 +109,19 @@ sub display_card {
         $label .= " (x$1)";
       }
 
+      if($num =~ /^\+(\d+) /) {
+        if($1 != 1) {
+          $num = "011" . $num;
+          $num =~ s/[^\d]//g;
+        }
+      }
+
       if($strip_numbers == 1) {
         $num =~ s/[^\d]//g;
+      } elsif($strip_numbers == 2) {
+        if(!($num =~ /^\+1 \d\d\d \d\d\d-\d\d\d\d$/)) {
+          $num =~ s/[^\d]//g;
+	}
       }
 
       $entries[@entries] .= "<DirectoryEntry>\n" . 
