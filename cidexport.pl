@@ -72,8 +72,8 @@ sub extract_nums {
       $num =~ s/^1//;
 
       if($num) {
-        $entries[@entries] .= "database put cidname $num " .
-                              "\"$name ($label)\"\n";
+        $entries[@entries] .= "asterisk -rx 'database put cidname $num " .
+                              "\"$name ($label)\"'\n";
       }
 
     } elsif($buf =~ /^(item\d+)\.X-ABLabel:(.+)$/) {
