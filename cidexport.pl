@@ -20,6 +20,10 @@ close NAMES;
 sub extract_nums {
   my ($name) = @_;
   my $fn = $name . ".vcf";
+  my $org = '';
+
+  $name =~ s/%([0-9a-fA-F][0-9a-fA-F])/pack("c",hex($1))/eg;
+  $name =~ s/'/\\'/g;
 
   my @entries;
   my $pref_entry = 0;
@@ -28,9 +32,16 @@ sub extract_nums {
   while(<CARD>) {
     my $buf = $_;
 
+
     $buf =~ s/\r//;
     $buf =~ s/\n//;
 
+    if($buf =~ /^ORG/) {
+      if($buf =~ /:([^;]+)/) {
+        $org = $1;
+	$org =~ s/\\,/,/g;
+      }
+    }
     if($buf =~ /^(TEL|item\d+\.TEL)[;:]/) {
       my ($num,$label) = ('3175551212','Unknown');
 
@@ -71,9 +82,20 @@ sub extract_nums {
       $num =~ s/[^\d]//g;
       $num =~ s/^1//;
 
+      my $outname = $name;
+      $label =~ s/\(.+\)//;
       if($num) {
+        if($org ne '') {
+          if($label =~ /main/i) {
+            $outname = $org;
+          } elsif($label =~ /work fax/i) {
+	    $outname = $org;
+	    $label = "Fax";
+	  }
+        }
+
         $entries[@entries] .= "asterisk -rx 'database put cidname $num " .
-                              "\"$name ($label)\"'\n";
+                              "\"$outname ($label)\"'\n";
       }
 
     } elsif($buf =~ /^(item\d+)\.X-ABLabel:(.+)$/) {
