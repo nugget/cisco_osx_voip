@@ -92,15 +92,19 @@ sub display_card {
     if($buf =~ /^(TEL|item\d+\.TEL)[;:]/) {
       my ($num,$label) = ('+1 317 555-1212','Unknown');
 
-      if($buf =~ /^(item\d+)\.TEL[;:]/) {
-        $label = $1;
-      } elsif($buf =~ /type=([^:;]+)[:;]/) {
-        $label = $1;
-      }
-
       if($buf =~ s/type=pref//i) {
         $pref_entry = @entries;
       }
+
+      if($buf =~ /^(item\d+)\.TEL[;:]/) {
+        $label = $1;
+      } else {
+        while($buf =~ s/type=([^:;]+)[:;]//i) {
+          $label .= " " . $1;
+        }
+	$label =~ s/unknown //i;
+      }
+
 
       if($buf =~ /:(.*)$/) {
         $num = $1;
