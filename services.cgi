@@ -16,7 +16,10 @@ my @menu_main = (
   "slacker.com services\ttitle",
   "Choose an option\tprompt",
   "Phone Book\t$dir/directory.cgi",
+  "Test Page\t$dir/test.cgi",
   "Food Delivery\t$me?item=food",
+  "Berbee\thttp://phone-xml.berbee.com/menu.xml",
+  "Flame\thttp://flame.tiefighter.org/fwd/xml/",
 );
 
 my @menu_food = (
