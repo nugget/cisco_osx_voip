@@ -1,4 +1,10 @@
 Options +ExecCGI
+Order Deny,Allow
+Allow from .slacker.com
+Allow from localhost
+Allow from 10.0.0.
+Allow from 10.0.1.
+Deny from All
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -6,4 +12,5 @@ RewriteBase /cisc0/
 
 RewriteRule ^(SIP............)/directory.cgi?(.*)$	/cisc0/directory.cgi?$2&$1		[QSA]
 </IfModule>
+
 
