@@ -184,7 +184,7 @@ print <<EOF;
 <InputItem>
 <DisplayName>Name</DisplayName>
 <QueryStringParam>st</QueryStringParam>
-<InputFlags>L</InputFlags>
+<InputFlags>A</InputFlags>
 <DefaultValue></DefaultValue>
 </InputItem>
 </CiscoIPPhoneInput>
