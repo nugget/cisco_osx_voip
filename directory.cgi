@@ -15,6 +15,10 @@ my $vcd = '/htdocs/cisc0/vCards';
 # if $strip_numbers is 2, all unrecognized formats are stripped
 my $strip_numbers = 2;
 
+if($::in{'name'}) {
+  $me = 'http://slacker.com/cisc0/' . $::in{'name'} . '/directory.cgi';
+}
+
 #$::in{'dn'} = 'Derek Buck';
 if($::in{'st'}) {
   my @matches = search_names($::in{'st'});
@@ -162,7 +166,7 @@ sub display_form {
 display_header();
 print <<EOF;
 <CiscoIPPhoneInput>
-<Title>Search for a Contact</Title>
+<Title>Search for Contacts</Title>
 <Prompt>Enter a search string</Prompt>
 <URL>$me</URL>
 <InputItem>
