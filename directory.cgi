@@ -100,7 +100,7 @@ sub display_card {
         $label = $1;
       } else {
         while($buf =~ s/type=([^:;]+)//i) {
-          $label .= " " . ucfirst(lc($1));
+          $label .= " " . $1;
         }
 	$label =~ s/unknown //i;
       }
@@ -112,15 +112,19 @@ sub display_card {
 
       $num =~ s/^sip://;
 
-      if($num =~ s/x (\d+)$//) {
-        $label .= " (x$1)";
-      }
-
       if($num =~ /^\+(\d+) /) {
         if($1 != 1) {
           $num = "011" . $num;
           $num =~ s/[^\d]//g;
         }
+      }
+
+      $label =~ s/cell/mobile/i;
+      $label = lc($label);
+      $label =~ s/\b(\w)/\U$1/g;
+
+      if($num =~ s/ ?x ?(\d+)$//) {
+        $label .= " (x$1)";
       }
 
       if(!($num =~ /@/)) {
@@ -132,8 +136,6 @@ sub display_card {
           }
         }
       }
-
-      $label =~ s/cell/mobile/i;
 
       $entries[@entries] .= "<DirectoryEntry>\n" . 
                             "<Name>$label</Name>\n" .
