@@ -99,7 +99,7 @@ sub display_card {
       if($buf =~ /^(item\d+)\.TEL[;:]/) {
         $label = $1;
       } else {
-        while($buf =~ s/type=([^:;]+)[:;]//i) {
+        while($buf =~ s/type=([^:;]+)//i) {
           $label .= " " . $1;
         }
 	$label =~ s/unknown //i;
