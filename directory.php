@@ -1,6 +1,15 @@
+<?php
+ header("Content-type: text/xml");
+ header("Connection: close");
+ header("Expires: -1");
+?>
 <CiscoIPPhoneDirectory>
   <Title>Slacker Phone Numbers</Title>
   <Prompt>People</Prompt>
+  <DirectoryEntry>
+    <Name>Weather</Name>
+    <Telephone>3172222222</Telephone>
+  </DirectoryEntry>
   <DirectoryEntry>
     <Name>Tom</Name>
     <Telephone>tomn@sneaky.net</Telephone>
@@ -18,4 +27,3 @@
     <Telephone>12087886728</Telephone>
   </DirectoryEntry>
 </CiscoIPPhoneDirectory> 
-
