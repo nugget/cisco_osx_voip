@@ -100,7 +100,7 @@ sub display_card {
         $label = $1;
       } else {
         while($buf =~ s/type=([^:;]+)//i) {
-          $label .= " " . $1;
+          $label .= " " . ucfirst(lc($1));
         }
 	$label =~ s/unknown //i;
       }
@@ -134,7 +134,6 @@ sub display_card {
       }
 
       $label =~ s/cell/mobile/i;
-      $label = lc($label);
 
       $entries[@entries] .= "<DirectoryEntry>\n" . 
                             "<Name>$label</Name>\n" .
@@ -143,6 +142,9 @@ sub display_card {
 
     } elsif($buf =~ /^(item\d+)\.X-ABLabel:(.+)$/) {
       my ($itemnum,$itemlabel) = ($1,$2);
+      if($itemlabel eq lc($itemlabel)) {
+        $itemlabel =~ s/\b(\w)/\U$1/g;
+      }
       for(my $i=0; $i<@entries; $i++) {
         $entries[$i] =~ s/<Name>$itemnum<\/Name>/<Name>$itemlabel<\/Name>/i;
       }
