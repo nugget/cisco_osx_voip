@@ -174,7 +174,7 @@ sub display_form {
 display_header();
 print <<EOF;
 <CiscoIPPhoneInput>
-<Title>OS X Address Book Search</Title>
+<Title>Address Book Search</Title>
 <Prompt>Enter a search string</Prompt>
 <URL>$me</URL>
 <InputItem>
