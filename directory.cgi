@@ -17,6 +17,7 @@ my $strip_numbers = 2;
 
 if($::in{'name'}) {
   $me = 'http://slacker.com/cisc0/' . $::in{'name'} . '/directory.cgi';
+  $me = 'http://slacker.com/cisc0/directory.cgi';
 }
 
 #$::in{'dn'} = 'Derek Buck';
